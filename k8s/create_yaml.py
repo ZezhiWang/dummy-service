@@ -46,7 +46,7 @@ def generate_yaml(json_file, yaml_file, tear_down):
             "    spec:\n" +
             "      containers:\n" +
             "        - name: " + svc + "\n" +
-            "          image: docker.io/herryzzwang/dummy:latest\n" +
+            "          image: docker.io/abrevnov/dummy:latest\n" +
             "          imagePullPolicy: Always\n" +
             "          ports:\n" +
             "            - containerPort: 8888\n" +

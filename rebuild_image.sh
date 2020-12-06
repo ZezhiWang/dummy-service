@@ -1,4 +1,4 @@
 #!/bin/bash
 
-docker build -t herryzzwang/dummy:latest .
-docker push herryzzwang/dummy:latest
+docker build -t abrevnov/dummy:latest .
+docker push abrevnov/dummy:latest

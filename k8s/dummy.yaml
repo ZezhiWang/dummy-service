@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
         - name: dummy1
-          image: docker.io/herryzzwang/dummy:latest
+          image: docker.io/abrevnov/dummy:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8888
@@ -68,7 +68,7 @@ spec:
     spec:
       containers:
         - name: dummy2
-          image: docker.io/herryzzwang/dummy:latest
+          image: docker.io/abrevnov/dummy:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8888
@@ -107,7 +107,7 @@ spec:
     spec:
       containers:
         - name: dummy3
-          image: docker.io/herryzzwang/dummy:latest
+          image: docker.io/abrevnov/dummy:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8888
