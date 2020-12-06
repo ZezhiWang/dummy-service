@@ -1,0 +1,116 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummy1
+  labels:
+    app: dummy1
+spec:
+  selector:
+    app: dummy1
+  ports:
+    - port: 8888
+      targetPort: 8888
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy1
+  labels:
+    app: dummy1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummy1
+  template:
+    metadata:
+      labels:
+        app: dummy1
+    spec:
+      containers:
+        - name: dummy1
+          image: docker.io/herryzzwang/dummy:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8888
+          env:
+            - name: CHILD_SERVICE
+              value: "dummy2,dummy3"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummy2
+  labels:
+    app: dummy2
+spec:
+  selector:
+    app: dummy2
+  ports:
+    - port: 8888
+      targetPort: 8888
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy2
+  labels:
+    app: dummy2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummy2
+  template:
+    metadata:
+      labels:
+        app: dummy2
+    spec:
+      containers:
+        - name: dummy2
+          image: docker.io/herryzzwang/dummy:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8888
+          env:
+            - name: CHILD_SERVICE
+              value: "dummy1,dummy3"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummy3
+  labels:
+    app: dummy3
+spec:
+  selector:
+    app: dummy3
+  ports:
+    - port: 8888
+      targetPort: 8888
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy3
+  labels:
+    app: dummy3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummy3
+  template:
+    metadata:
+      labels:
+        app: dummy3
+    spec:
+      containers:
+        - name: dummy3
+          image: docker.io/herryzzwang/dummy:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8888
+          env:
+            - name: CHILD_SERVICE
+              value: "dummy1,dummy2"
