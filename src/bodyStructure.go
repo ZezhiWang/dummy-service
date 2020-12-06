@@ -20,21 +20,21 @@ type Request struct {
 }
 
 func generatePostBody(services []string, val string) []byte {
-	partial_method := "POST"
-	comp_method := "DELETE"
-	return generateBody(services, val, partial_method, comp_method)
+	partialMethod := "POST"
+	compMethod := "DELETE"
+	return generateBody(services, val, partialMethod, compMethod)
 }
 
 func generateDeleteBody(services []string, val string) []byte {
-	partial_method := "DELETE"
-	comp_method := "POST"
-	return generateBody(services, val, partial_method, comp_method)
+	partialMethod := "DELETE"
+	compMethod := "POST"
+	return generateBody(services, val, partialMethod, compMethod)
 }
 
 func generateBody(services []string, val, partial, comp string) []byte {
 	requests := make(map[string]TransactionReq)
 	for _, svc := range services {
-		url := "http://" + svc + ".default.svc.cluster.local:8888/base/" + val
+		url := "http://" + svc + ".default.svc.cluster.local:8888/" + val
 		requests[svc] = TransactionReq{
 			PartialReq: Request{
 				Method: partial,

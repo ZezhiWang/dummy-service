@@ -17,7 +17,11 @@ var mutex = sync.Mutex{}
 func main() {
 	r := gin.Default()
 
-	r.POST("/base/:id", func(c *gin.Context) {
+	r.GET("/", func(c *gin.Context) {
+		c.Status(http.StatusOK)
+	})
+
+	r.POST("/:id", func(c *gin.Context) {
 		id := c.Param("id")
 		mutex.Lock()
 		data[id] = id
@@ -25,44 +29,49 @@ func main() {
 		c.Status(http.StatusOK)
 	})
 
-	r.DELETE("/base/:id", func(c *gin.Context) {
+	r.POST("/:id", func(c *gin.Context) {
 		id := c.Param("id")
-		mutex.Lock()
-		if _, isIn := data[id]; isIn {
-			delete(data, id)
+		if len(childServices) > 0 {
+			body := generatePostBody(childServices, id)
+			resp, err := http.Post("http://coordinator.yac.svc.cluster.local:8080/saga", "application/json", bytes.NewBuffer(body))
+			if err == nil && resp.StatusCode >= 200 && resp.StatusCode <= 299 {
+				c.Status(http.StatusOK)
+			} else if err != nil {
+				c.Status(http.StatusInternalServerError)
+			} else {
+				c.Status(resp.StatusCode)
+			}
+		} else {
+			id := c.Param("id")
+			mutex.Lock()
+			data[id] = id
 			mutex.Unlock()
 			c.Status(http.StatusOK)
-		} else {
-			mutex.Unlock()
-			c.Status(http.StatusBadRequest)
 		}
 	})
 
-	r.POST("/saga/:id", func(c *gin.Context) {
+	r.DELETE("/:id", func(c *gin.Context) {
 		id := c.Param("id")
-		body := generatePostBody(childServices, id)
-
-		resp, err := http.Post("http://coordinator.yac.svc.cluster.local:8080/saga", "application/json", bytes.NewBuffer(body))
-		if err == nil && resp.StatusCode >= 200 && resp.StatusCode <= 299 {
-			c.Status(http.StatusOK)
-		} else if err != nil {
-			c.Status(http.StatusInternalServerError)
+		if len(childServices) > 0 {
+			body := generateDeleteBody(childServices, id)
+			resp, err := http.Post("http://coordinator.yac.svc.cluster.local:8080/saga", "application/json", bytes.NewBuffer(body))
+			if err == nil && resp.StatusCode >= 200 && resp.StatusCode <= 299 {
+				c.Status(http.StatusOK)
+			} else if err != nil {
+				c.Status(http.StatusInternalServerError)
+			} else {
+				c.Status(resp.StatusCode)
+			}
 		} else {
-			c.Status(resp.StatusCode)
-		}
-	})
-
-	r.DELETE("/saga/:id", func(c *gin.Context) {
-		id := c.Param("id")
-		body := generateDeleteBody(childServices, id)
-
-		resp, err := http.Post("http://coordinator.yac.svc.cluster.local:8080/saga", "application/json", bytes.NewBuffer(body))
-		if err == nil && resp.StatusCode >= 200 && resp.StatusCode <= 299 {
-			c.Status(http.StatusOK)
-		} else if err != nil {
-			c.Status(http.StatusInternalServerError)
-		} else {
-			c.Status(resp.StatusCode)
+			mutex.Lock()
+			if _, isIn := data[id]; isIn {
+				delete(data, id)
+				mutex.Unlock()
+				c.Status(http.StatusOK)
+			} else {
+				mutex.Unlock()
+				c.Status(http.StatusBadRequest)
+			}
 		}
 	})
 
