@@ -6,9 +6,12 @@ import (
 	"os"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
+
+const responseDelay = 5
 
 var childServices = strings.Split(os.Getenv("CHILD_SERVICE"), ",")
 
@@ -24,6 +27,7 @@ func main() {
 
 	r.POST("/:id", func(c *gin.Context) {
 		id := c.Param("id")
+		time.Sleep(responseDelay * time.Millisecond)
 		if len(childServices) == 0 || (len(childServices) == 1 && childServices[0] == "") {
 			id := c.Param("id")
 			mutex.Lock()
