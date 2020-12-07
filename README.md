@@ -1,22 +1,12 @@
 # Dummy
 Dummy Service for CS2952F final project
 
-### basic add
+### add
 ```
-POST /base/:id
-```
-
-### basic delete
-```
-DELETE /base/:id
+POST /:id
 ```
 
-### saga add
+### delete
 ```
-POST /saga/:id
-```
-
-### saga delete
-```
-DELETE /saga/:id
+DELETE /:id
 ```

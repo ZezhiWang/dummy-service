@@ -1,0 +1,507 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummy10
+  labels:
+    app: dummy10
+spec:
+  selector:
+    app: dummy10
+  ports:
+    - port: 8888
+      targetPort: 8888
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy10
+  labels:
+    app: dummy10
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummy10
+  template:
+    metadata:
+      labels:
+        app: dummy10
+    spec:
+      containers:
+        - name: dummy10
+          image: docker.io/abrevnov/dummy:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8888
+          env:
+            - name: CHILD_SERVICE
+              value: ""
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummy2
+  labels:
+    app: dummy2
+spec:
+  selector:
+    app: dummy2
+  ports:
+    - port: 8888
+      targetPort: 8888
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy2
+  labels:
+    app: dummy2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummy2
+  template:
+    metadata:
+      labels:
+        app: dummy2
+    spec:
+      containers:
+        - name: dummy2
+          image: docker.io/abrevnov/dummy:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8888
+          env:
+            - name: CHILD_SERVICE
+              value: "dummy5,dummy6,dummy7"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummy7
+  labels:
+    app: dummy7
+spec:
+  selector:
+    app: dummy7
+  ports:
+    - port: 8888
+      targetPort: 8888
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy7
+  labels:
+    app: dummy7
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummy7
+  template:
+    metadata:
+      labels:
+        app: dummy7
+    spec:
+      containers:
+        - name: dummy7
+          image: docker.io/abrevnov/dummy:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8888
+          env:
+            - name: CHILD_SERVICE
+              value: ""
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummy13
+  labels:
+    app: dummy13
+spec:
+  selector:
+    app: dummy13
+  ports:
+    - port: 8888
+      targetPort: 8888
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy13
+  labels:
+    app: dummy13
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummy13
+  template:
+    metadata:
+      labels:
+        app: dummy13
+    spec:
+      containers:
+        - name: dummy13
+          image: docker.io/abrevnov/dummy:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8888
+          env:
+            - name: CHILD_SERVICE
+              value: ""
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummy3
+  labels:
+    app: dummy3
+spec:
+  selector:
+    app: dummy3
+  ports:
+    - port: 8888
+      targetPort: 8888
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy3
+  labels:
+    app: dummy3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummy3
+  template:
+    metadata:
+      labels:
+        app: dummy3
+    spec:
+      containers:
+        - name: dummy3
+          image: docker.io/abrevnov/dummy:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8888
+          env:
+            - name: CHILD_SERVICE
+              value: "dummy8,dummy9,dummy10"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummy4
+  labels:
+    app: dummy4
+spec:
+  selector:
+    app: dummy4
+  ports:
+    - port: 8888
+      targetPort: 8888
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy4
+  labels:
+    app: dummy4
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummy4
+  template:
+    metadata:
+      labels:
+        app: dummy4
+    spec:
+      containers:
+        - name: dummy4
+          image: docker.io/abrevnov/dummy:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8888
+          env:
+            - name: CHILD_SERVICE
+              value: "dummy11,dummy12,dummy13"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummy5
+  labels:
+    app: dummy5
+spec:
+  selector:
+    app: dummy5
+  ports:
+    - port: 8888
+      targetPort: 8888
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy5
+  labels:
+    app: dummy5
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummy5
+  template:
+    metadata:
+      labels:
+        app: dummy5
+    spec:
+      containers:
+        - name: dummy5
+          image: docker.io/abrevnov/dummy:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8888
+          env:
+            - name: CHILD_SERVICE
+              value: ""
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummy8
+  labels:
+    app: dummy8
+spec:
+  selector:
+    app: dummy8
+  ports:
+    - port: 8888
+      targetPort: 8888
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy8
+  labels:
+    app: dummy8
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummy8
+  template:
+    metadata:
+      labels:
+        app: dummy8
+    spec:
+      containers:
+        - name: dummy8
+          image: docker.io/abrevnov/dummy:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8888
+          env:
+            - name: CHILD_SERVICE
+              value: ""
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummy11
+  labels:
+    app: dummy11
+spec:
+  selector:
+    app: dummy11
+  ports:
+    - port: 8888
+      targetPort: 8888
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy11
+  labels:
+    app: dummy11
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummy11
+  template:
+    metadata:
+      labels:
+        app: dummy11
+    spec:
+      containers:
+        - name: dummy11
+          image: docker.io/abrevnov/dummy:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8888
+          env:
+            - name: CHILD_SERVICE
+              value: ""
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummy1
+  labels:
+    app: dummy1
+spec:
+  selector:
+    app: dummy1
+  ports:
+    - port: 8888
+      targetPort: 8888
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy1
+  labels:
+    app: dummy1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummy1
+  template:
+    metadata:
+      labels:
+        app: dummy1
+    spec:
+      containers:
+        - name: dummy1
+          image: docker.io/abrevnov/dummy:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8888
+          env:
+            - name: CHILD_SERVICE
+              value: "dummy2,dummy3,dummy4"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummy9
+  labels:
+    app: dummy9
+spec:
+  selector:
+    app: dummy9
+  ports:
+    - port: 8888
+      targetPort: 8888
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy9
+  labels:
+    app: dummy9
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummy9
+  template:
+    metadata:
+      labels:
+        app: dummy9
+    spec:
+      containers:
+        - name: dummy9
+          image: docker.io/abrevnov/dummy:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8888
+          env:
+            - name: CHILD_SERVICE
+              value: ""
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummy6
+  labels:
+    app: dummy6
+spec:
+  selector:
+    app: dummy6
+  ports:
+    - port: 8888
+      targetPort: 8888
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy6
+  labels:
+    app: dummy6
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummy6
+  template:
+    metadata:
+      labels:
+        app: dummy6
+    spec:
+      containers:
+        - name: dummy6
+          image: docker.io/abrevnov/dummy:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8888
+          env:
+            - name: CHILD_SERVICE
+              value: ""
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummy12
+  labels:
+    app: dummy12
+spec:
+  selector:
+    app: dummy12
+  ports:
+    - port: 8888
+      targetPort: 8888
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy12
+  labels:
+    app: dummy12
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummy12
+  template:
+    metadata:
+      labels:
+        app: dummy12
+    spec:
+      containers:
+        - name: dummy12
+          image: docker.io/abrevnov/dummy:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8888
+          env:
+            - name: CHILD_SERVICE
+              value: ""

@@ -2,11 +2,12 @@ package main
 
 import (
 	"bytes"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"os"
 	"strings"
 	"sync"
+
+	"github.com/gin-gonic/gin"
 )
 
 var childServices = strings.Split(os.Getenv("CHILD_SERVICE"), ",")
@@ -31,7 +32,7 @@ func main() {
 			c.Status(http.StatusOK)
 		} else {
 			body := generatePostBody(childServices, id)
-			resp, err := http.Post("http://coordinator.yac.svc.cluster.local:8080/saga", "application/json", bytes.NewBuffer(body))
+			resp, err := http.Post("http://coordinator.yac-baseline.svc.cluster.local:8080/saga", "application/json", bytes.NewBuffer(body))
 			if err == nil && resp.StatusCode >= 200 && resp.StatusCode <= 299 {
 				c.Status(http.StatusOK)
 			} else if err != nil {
