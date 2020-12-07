@@ -47,7 +47,7 @@ def generate_yaml(json_file, yaml_file, tear_down):
             "      containers:\n" +
             "        - name: " + svc + "\n" +
             "          image: docker.io/abrevnov/dummy:latest\n" +
-            "          imagePullPolicy: Always\n" +
+            "          imagePullPolicy: IfNotPresent\n" +
             "          ports:\n" +
             "            - containerPort: 8888\n" +
             "          env:\n" +
@@ -62,4 +62,4 @@ def generate_yaml(json_file, yaml_file, tear_down):
 
 
 if __name__ == '__main__':
-    generate_yaml("dummy.json", "dummy.yaml", "tear_down.sh")
+    generate_yaml("dummy_jsons/big1.json", "dummy.yaml", "tear_down.sh")
