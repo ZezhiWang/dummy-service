@@ -1,0 +1,17 @@
+{
+  "svc": {
+    "dummy1": "dummy2,dummy3,dummy4",
+    "dummy2": "dummy5,dummy6,dummy7",
+    "dummy3": "dummy8,dummy9,dummy10",
+    "dummy4": "dummy11,dummy12,dummy13",
+    "dummy5": "",
+    "dummy6": "",
+    "dummy7": "",
+    "dummy8": "",
+    "dummy9": "",
+    "dummy10": "",
+    "dummy11": "",
+    "dummy12": "",
+    "dummy13": "",
+  }
+}
