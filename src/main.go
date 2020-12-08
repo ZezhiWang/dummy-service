@@ -20,6 +20,8 @@ var childServices = strings.Split(os.Getenv("CHILD_SERVICE"), ",")
 var data = make(map[string]string)
 var mutex = sync.Mutex{}
 
+const coordinatorAddr = "http://coordinator.yac-baseline.svc.cluster.local:8080/saga/"
+
 func main() {
 	r := gin.Default()
 
@@ -39,7 +41,7 @@ func main() {
 		} else {
 			body := generatePostBody(childServices, id)
 			reqId := xid.New().String()
-			resp, err := http.Post("http://coordinator.yac.svc.cluster.local:8080/saga/" + reqId, "application/json", bytes.NewBuffer(body))
+			resp, err := http.Post(coordinatorAddr + reqId, "application/json", bytes.NewBuffer(body))
 			if err == nil && resp.StatusCode >= 200 && resp.StatusCode <= 299 {
 				c.Status(http.StatusOK)
 			} else if err != nil {
@@ -66,7 +68,7 @@ func main() {
 		} else {
 			body := generateDeleteBody(childServices, id)
 			reqId := xid.New().String()
-			resp, err := http.Post("http://coordinator.yac.svc.cluster.local:8080/saga/" + reqId, "application/json", bytes.NewBuffer(body))
+			resp, err := http.Post(coordinatorAddr + reqId, "application/json", bytes.NewBuffer(body))
 			if err == nil && resp.StatusCode >= 200 && resp.StatusCode <= 299 {
 				c.Status(http.StatusOK)
 			} else if err != nil {
