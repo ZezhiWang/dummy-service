@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -9,6 +10,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/rs/xid"
 )
 
 const responseDelay = 5
@@ -17,6 +19,8 @@ var childServices = strings.Split(os.Getenv("CHILD_SERVICE"), ",")
 
 var data = make(map[string]string)
 var mutex = sync.Mutex{}
+
+const coordinatorAddr = "http://coordinator.yac-baseline.svc.cluster.local:8080/saga/"
 
 func main() {
 	r := gin.Default()
@@ -36,10 +40,12 @@ func main() {
 			c.Status(http.StatusOK)
 		} else {
 			body := generatePostBody(childServices, id)
-			resp, err := http.Post("http://coordinator.yac.svc.cluster.local:8080/saga", "application/json", bytes.NewBuffer(body))
+			reqId := xid.New().String()
+			resp, err := http.Post(coordinatorAddr + reqId, "application/json", bytes.NewBuffer(body))
 			if err == nil && resp.StatusCode >= 200 && resp.StatusCode <= 299 {
 				c.Status(http.StatusOK)
 			} else if err != nil {
+				log.Println(err)
 				c.Status(http.StatusInternalServerError)
 			} else {
 				c.Status(resp.StatusCode)
@@ -61,7 +67,8 @@ func main() {
 			}
 		} else {
 			body := generateDeleteBody(childServices, id)
-			resp, err := http.Post("http://coordinator.yac.svc.cluster.local:8080/saga", "application/json", bytes.NewBuffer(body))
+			reqId := xid.New().String()
+			resp, err := http.Post(coordinatorAddr + reqId, "application/json", bytes.NewBuffer(body))
 			if err == nil && resp.StatusCode >= 200 && resp.StatusCode <= 299 {
 				c.Status(http.StatusOK)
 			} else if err != nil {
